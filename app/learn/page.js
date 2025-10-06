@@ -16,28 +16,9 @@ const medicalTerms = [
 
 export default function Learn() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [phonetic, setPhonetic] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [practiced, setPracticed] = useState(new Set());
 
   const currentTerm = medicalTerms[currentIndex];
-
-  const fetchPhonetic = async (term) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${term}`);
-      if (response.ok) {
-        const data = await response.json();
-        const phoneticText = data[0]?.phonetic || data[0]?.phonetics?.[0]?.text || 'No phonetic available';
-        setPhonetic(phoneticText);
-      } else {
-        setPhonetic('Phonetic transcription not found');
-      }
-    } catch (error) {
-      setPhonetic('Error fetching phonetic');
-    }
-    setIsLoading(false);
-  };
 
   const handlePronounce = (term) => {
     if ('speechSynthesis' in window) {
@@ -57,37 +38,34 @@ export default function Learn() {
   const handleNext = () => {
     if (currentIndex < medicalTerms.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setPhonetic('');
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
-      setPhonetic('');
     }
   };
 
   const handleTermClick = (index) => {
     setCurrentIndex(index);
-    setPhonetic('');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 AuraPronounce - Learn
               </h1>
-              <p className="mt-1 text-sm text-gray-600">Practice {medicalTerms.length} essential medical terms</p>
+              <p className="mt-1 text-xs sm:text-sm text-gray-600">Practice {medicalTerms.length} essential medical terms</p>
             </div>
             <Link
               href="/"
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+              className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
             >
               Search Mode
             </Link>
@@ -121,10 +99,10 @@ export default function Learn() {
                 <div className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-4">
                   Term {currentIndex + 1}
                 </div>
-                <h2 className="text-5xl font-bold text-gray-800 mb-6">{currentTerm}</h2>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6 break-words px-2">{currentTerm}</h2>
 
-                {/* Action Buttons */}
-                <div className="flex gap-4 justify-center mb-6">
+                {/* Action Button */}
+                <div className="flex justify-center">
                   <button
                     onClick={() => handlePronounce(currentTerm)}
                     className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
@@ -134,28 +112,7 @@ export default function Learn() {
                     </svg>
                     Listen
                   </button>
-                  <button
-                    onClick={() => fetchPhonetic(currentTerm)}
-                    disabled={isLoading}
-                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50"
-                  >
-                    {isLoading ? 'Loading...' : 'Show Phonetics'}
-                  </button>
                 </div>
-
-                {/* Phonetic Display */}
-                {phonetic && (
-                  <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100">
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="bg-purple-600 rounded-lg p-2">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.828 2.828" />
-                        </svg>
-                      </div>
-                      <p className="text-2xl font-medium text-purple-700">{phonetic}</p>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Navigation */}
