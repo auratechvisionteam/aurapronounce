@@ -2,29 +2,71 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const medicalTerms = [
+const medicalTermsData = [
   // Microbiology
-  'Prophylactic', 'Lesions', 'Exaggerated', 'Eukaryotic', 'Prokaryotic',
-  'Self-luminous', 'Plotted', 'Microaerophilic', 'Capnophilic', 'Mesophiles',
-  'Psychrophiles', 'Inspissation', 'Tyndallisation', 'Germinate',
+  { term: 'Prophylactic', subject: 'Microbiology' },
+  { term: 'Lesions', subject: 'Microbiology' },
+  { term: 'Exaggerated', subject: 'Microbiology' },
+  { term: 'Eukaryotic', subject: 'Microbiology' },
+  { term: 'Prokaryotic', subject: 'Microbiology' },
+  { term: 'Self-luminous', subject: 'Microbiology' },
+  { term: 'Plotted', subject: 'Microbiology' },
+  { term: 'Microaerophilic', subject: 'Microbiology' },
+  { term: 'Capnophilic', subject: 'Microbiology' },
+  { term: 'Mesophiles', subject: 'Microbiology' },
+  { term: 'Psychrophiles', subject: 'Microbiology' },
+  { term: 'Inspissation', subject: 'Microbiology' },
+  { term: 'Tyndallisation', subject: 'Microbiology' },
+  { term: 'Germinate', subject: 'Microbiology' },
 
   // Biochemistry
-  'Ketogenesis', 'Hyperbilirubinemia', 'Apolipoproteins', 'Centrifugation', 'Reagent blank',
-  'Calibration', 'Nephelometry', 'Spectrophotometer', 'Hypercholesterolemia', 'Ubiquinone',
-  'Pyramidines', 'Denaturation', 'Sphingomyelin', 'Tryptophan', 'Phenylalanine',
-  'Hypertrophy',
+  { term: 'Ketogenesis', subject: 'Biochemistry' },
+  { term: 'Hyperbilirubinemia', subject: 'Biochemistry' },
+  { term: 'Apolipoproteins', subject: 'Biochemistry' },
+  { term: 'Centrifugation', subject: 'Biochemistry' },
+  { term: 'Reagent blank', subject: 'Biochemistry' },
+  { term: 'Calibration', subject: 'Biochemistry' },
+  { term: 'Nephelometry', subject: 'Biochemistry' },
+  { term: 'Spectrophotometer', subject: 'Biochemistry' },
+  { term: 'Hypercholesterolemia', subject: 'Biochemistry' },
+  { term: 'Ubiquinone', subject: 'Biochemistry' },
+  { term: 'Pyramidines', subject: 'Biochemistry' },
+  { term: 'Denaturation', subject: 'Biochemistry' },
+  { term: 'Sphingomyelin', subject: 'Biochemistry' },
+  { term: 'Tryptophan', subject: 'Biochemistry' },
+  { term: 'Phenylalanine', subject: 'Biochemistry' },
+  { term: 'Hypertrophy', subject: 'Biochemistry' },
 
   // Pathology
-  'Hyperplasia', 'Gangrene', 'Chemotaxis', 'Lymphadenopathy', 'Phagocytosis',
-  'Hemoglobinopathies', 'Spherocytosis', 'Thalassemia', 'Hematocrit', 'Arteriosclerosis',
-  'Cardiomyopathy', 'Cirrhosis', 'Adenocarcinoma', 'Papilloma'
+  { term: 'Hyperplasia', subject: 'Pathology' },
+  { term: 'Gangrene', subject: 'Pathology' },
+  { term: 'Chemotaxis', subject: 'Pathology' },
+  { term: 'Lymphadenopathy', subject: 'Pathology' },
+  { term: 'Phagocytosis', subject: 'Pathology' },
+  { term: 'Hemoglobinopathies', subject: 'Pathology' },
+  { term: 'Spherocytosis', subject: 'Pathology' },
+  { term: 'Thalassemia', subject: 'Pathology' },
+  { term: 'Hematocrit', subject: 'Pathology' },
+  { term: 'Arteriosclerosis', subject: 'Pathology' },
+  { term: 'Cardiomyopathy', subject: 'Pathology' },
+  { term: 'Cirrhosis', subject: 'Pathology' },
+  { term: 'Adenocarcinoma', subject: 'Pathology' },
+  { term: 'Papilloma', subject: 'Pathology' }
 ];
+
+const subjectColors = {
+  'Microbiology': { bg: 'bg-blue-100', text: 'text-blue-700', border: 'border-blue-300' },
+  'Biochemistry': { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-300' },
+  'Pathology': { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-300' }
+};
 
 export default function Learn() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [practiced, setPracticed] = useState(new Set());
 
-  const currentTerm = medicalTerms[currentIndex];
+  const currentTermData = medicalTermsData[currentIndex];
+  const currentTerm = currentTermData.term;
+  const currentSubject = currentTermData.subject;
 
   const handlePronounce = (term) => {
     if ('speechSynthesis' in window) {
@@ -42,7 +84,7 @@ export default function Learn() {
   };
 
   const handleNext = () => {
-    if (currentIndex < medicalTerms.length - 1) {
+    if (currentIndex < medicalTermsData.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -67,7 +109,7 @@ export default function Learn() {
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 AuraPronounce - Learn
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-gray-600">Practice {medicalTerms.length} essential medical terms</p>
+              <p className="mt-1 text-xs sm:text-sm text-gray-600">Practice {medicalTermsData.length} essential medical terms</p>
             </div>
             <Link
               href="/"
@@ -89,21 +131,26 @@ export default function Learn() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-gray-600">Progress</span>
                   <span className="text-sm font-medium text-purple-600">
-                    {currentIndex + 1} / {medicalTerms.length}
+                    {currentIndex + 1} / {medicalTermsData.length}
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-gradient-to-r from-purple-600 to-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${((currentIndex + 1) / medicalTerms.length) * 100}%` }}
+                    style={{ width: `${((currentIndex + 1) / medicalTermsData.length) * 100}%` }}
                   ></div>
                 </div>
               </div>
 
               {/* Term Display */}
               <div className="text-center mb-8">
-                <div className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-4">
-                  Term {currentIndex + 1}
+                <div className="flex justify-center items-center gap-3 mb-4 flex-wrap">
+                  <div className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                    Term {currentIndex + 1}
+                  </div>
+                  <div className={`inline-block px-4 py-2 ${subjectColors[currentSubject].bg} ${subjectColors[currentSubject].text} rounded-full text-sm font-medium border ${subjectColors[currentSubject].border}`}>
+                    {currentSubject}
+                  </div>
                 </div>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6 break-words px-2">{currentTerm}</h2>
 
@@ -138,7 +185,7 @@ export default function Learn() {
                 </div>
                 <button
                   onClick={handleNext}
-                  disabled={currentIndex === medicalTerms.length - 1}
+                  disabled={currentIndex === medicalTermsData.length - 1}
                   className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   Next
@@ -160,22 +207,27 @@ export default function Learn() {
                 All Terms
               </h3>
               <div className="space-y-1 max-h-[600px] overflow-y-auto pr-2">
-                {medicalTerms.map((term, index) => (
+                {medicalTermsData.map((termData, index) => (
                   <button
-                    key={term}
+                    key={termData.term}
                     onClick={() => handleTermClick(index)}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all text-sm ${
                       index === currentIndex
                         ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium'
-                        : practiced.has(term)
+                        : practiced.has(termData.term)
                         ? 'bg-green-50 text-gray-700 hover:bg-green-100'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                     }`}
                   >
-                    <div className="flex justify-between items-center">
-                      <span>{term}</span>
-                      {practiced.has(term) && index !== currentIndex && (
-                        <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium">{termData.term}</div>
+                        <div className={`text-xs mt-1 ${index === currentIndex ? 'text-purple-100' : subjectColors[termData.subject].text}`}>
+                          {termData.subject}
+                        </div>
+                      </div>
+                      {practiced.has(termData.term) && index !== currentIndex && (
+                        <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                       )}
@@ -197,7 +249,7 @@ export default function Learn() {
                 </svg>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{medicalTerms.length}</p>
+                <p className="text-2xl font-bold text-gray-800">{medicalTermsData.length}</p>
                 <p className="text-sm text-gray-600">Total Terms</p>
               </div>
             </div>
@@ -225,7 +277,7 @@ export default function Learn() {
                 </svg>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{Math.round((practiced.size / medicalTerms.length) * 100)}%</p>
+                <p className="text-2xl font-bold text-gray-800">{Math.round((practiced.size / medicalTermsData.length) * 100)}%</p>
                 <p className="text-sm text-gray-600">Completion</p>
               </div>
             </div>
