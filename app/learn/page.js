@@ -3,12 +3,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const medicalTerms = [
+  // Microbiology
   'Prophylactic', 'Lesions', 'Exaggerated', 'Eukaryotic', 'Prokaryotic',
   'Self-luminous', 'Plotted', 'Microaerophilic', 'Capnophilic', 'Mesophiles',
-  'Psychrophiles', 'Inspissation', 'Tyndallisation', 'Germinate', 'Ketogenesis',
-  'Hyperbilirubinemia', 'Apolipoproteins', 'Centrifugation', 'Reagent blank', 'Calibration',
-  'Nephelometry', 'Spectrophotometer', 'Hypercholesterolemia', 'Ubiquinone', 'Pyramidines',
-  'Denaturation', 'Sphingomyelin', 'Tryptophan', 'Phenylalanine', 'Hypertrophy',
+  'Psychrophiles', 'Inspissation', 'Tyndallisation', 'Germinate',
+
+  // Biochemistry
+  'Ketogenesis', 'Hyperbilirubinemia', 'Apolipoproteins', 'Centrifugation', 'Reagent blank',
+  'Calibration', 'Nephelometry', 'Spectrophotometer', 'Hypercholesterolemia', 'Ubiquinone',
+  'Pyramidines', 'Denaturation', 'Sphingomyelin', 'Tryptophan', 'Phenylalanine',
+  'Hypertrophy',
+
+  // Pathology
   'Hyperplasia', 'Gangrene', 'Chemotaxis', 'Lymphadenopathy', 'Phagocytosis',
   'Hemoglobinopathies', 'Spherocytosis', 'Thalassemia', 'Hematocrit', 'Arteriosclerosis',
   'Cardiomyopathy', 'Cirrhosis', 'Adenocarcinoma', 'Papilloma'
